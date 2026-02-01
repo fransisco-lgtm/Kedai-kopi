@@ -1,0 +1,199 @@
+:root{
+  --bg:#0f1115;
+  --panel:rgba(255,255,255,.06);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.68);
+  --brand:#f1c27b;
+  --brand2:#caa06b;
+  --border:rgba(255,255,255,.10);
+  --shadow:0 12px 30px rgba(0,0,0,.35);
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 500px at 15% 10%, rgba(241,194,123,.18), transparent 60%),
+    radial-gradient(900px 500px at 85% 20%, rgba(202,160,107,.16), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+}
+
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ================= LAYOUT ================= */
+.container{
+  width:min(1100px,100%);
+  margin:auto;
+  padding:0 18px;
+}
+
+.section{
+  padding:64px 0; /* ✅ jarak antar section */
+}
+
+/* ================= CARD ================= */
+.card{
+  background:linear-gradient(180deg,var(--panel),rgba(255,255,255,.03));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px;
+}
+
+/* kasih jarak antar card */
+.section .card{
+  margin-bottom:18px;
+}
+
+/* ================= NAVBAR ================= */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter:blur(12px);
+  background:rgba(15,17,21,.62);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.nav-inner{
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.nav-links{display:flex;gap:14px}
+@media(max-width:520px){
+  .nav-links{display:none}
+}
+
+/* ================= SECTION TITLE ================= */
+.section-title{
+  font-size:22px;
+  margin:0 0 10px;
+}
+.section-desc{
+  margin:0 0 22px; /* ✅ jarak bawah diperbesar */
+  color:var(--muted);
+  line-height:1.7;
+}
+
+/* ================= CATEGORY BAR ================= */
+.catbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:22px 0 28px;
+}
+.cat-arrow{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  border:0;
+  background:#e6b980;
+  color:#1a1a1a;
+  font-size:26px;
+  cursor:pointer;
+}
+.cat-rail{
+  flex:1;
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.cat-rail::-webkit-scrollbar{display:none}
+.cat-chip{
+  padding:14px 22px;
+  border-radius:18px;
+  border:0;
+  background:#3a3a3a;
+  color:#d6d6d6;
+  font-weight:700;
+  min-width:180px;
+  text-align:center;
+}
+.cat-chip.active{
+  background:#e6b980;
+  color:#1a1a1a;
+}
+
+/* ================= MENU LIST (ROW) ================= */
+.menu-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* satu item menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+}
+
+/* gambar kiri */
+.menu-thumb{
+  width:72px;
+  height:72px;
+  flex-shrink:0;
+  border-radius:14px;
+  object-fit:cover;
+  background:#000;
+}
+
+/* teks kanan */
+.menu-body{
+  flex:1;
+  min-width:0;
+}
+
+.menu-row-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.menu-name{
+  font-weight:800;
+  margin:0;
+}
+
+.menu-note{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.price{
+  font-weight:900;
+  color:#1b140f;
+  background:linear-gradient(90deg,var(--brand),var(--brand2));
+  padding:8px 10px;
+  border-radius:12px;
+  white-space:nowrap;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  padding:28px 0 36px;
+  color:var(--muted);
+  border-top:1px solid rgba(255,255,255,.07);
+  text-align:center;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:520px){
+  .menu-thumb{
+    width:60px;
+    height:60px;
+    border-radius:12px;
+  }
+}
