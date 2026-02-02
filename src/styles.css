@@ -197,3 +197,170 @@ a{text-decoration:none;color:inherit}
     border-radius:12px;
   }
 }
+
+/* ===== MENU PAGE SECTION TITLE ===== */
+.menu-section-title{
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .2px;
+  color: rgba(255,255,255,.92);
+}
+
+/* list menu di halaman /menu -> jadi GRID 2 kolom */
+.menu-list{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* mobile tetap 1 kolom biar enak dibaca */
+@media (max-width: 640px){
+  .menu-list{
+    grid-template-columns: 1fr;
+  }
+}
+.menu-thumb.placeholder{
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ===== CART PANEL ===== */
+.cart-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-panel{
+  width: min(420px, 92vw);
+  height: 100%;
+  background: #121212;
+  border-left: 1px solid rgba(255,255,255,.08);
+  padding: 16px;
+  overflow: auto;
+}
+
+.cart-head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cart-list{ display: grid; gap: 12px; }
+
+.cart-item{
+  display:flex;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,.04);
+}
+
+.cart-thumb{
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #000;
+}
+.cart-thumb.ph{
+  background: rgba(255,255,255,.06);
+}
+
+.cart-info{ flex:1; min-width:0; }
+
+.cart-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cart-price{
+  color: rgba(255,255,255,.65);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.cart-remove{
+  background: transparent;
+  border: 0;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+}
+
+.cart-qty{
+  margin-top: 10px;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+.cart-qty button{
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: #fff;
+}
+.cart-qty span{
+  min-width: 18px;
+  text-align:center;
+  font-weight: 800;
+}
+
+.cart-foot{
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.cart-total{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  margin-bottom: 12px;
+}
+
+.cart-actions{
+  display:flex;
+  gap: 10px;
+}
+.cart-actions .btn{
+  flex:1;
+  justify-content:center;
+}
+/* ===== BUTTON ADD TO CART (lebih cakep) ===== */
+.btn-cart{
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 800;
+  border-radius: 14px;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+.btn-cart:hover{
+  transform: translateY(-1px);
+}
+
+.btn-cart .cart-ico{
+  font-size: 18px;
+  transform: translateY(-1px);
+}
+
+.btn-cart.added{
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  color: #1b140f;
+  border-color: rgba(0,0,0,.2);
+}
+
+.btn-cart .cart-check{
+  font-weight: 900;
+}

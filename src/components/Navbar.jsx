@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCart } from "../cart/CartContext.jsx";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -7,7 +8,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
 
-  const cartCount = 0;
+  const { count } = useCart();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ export default function Navbar() {
     // kalau lagi bukan di home, balik dulu ke home
     if (location.pathname !== "/") {
       navigate("/" + hash);
-      // tunggu render
       setTimeout(() => {
         const id = hash.replace("#", "");
         const el = document.getElementById(id);
@@ -77,12 +77,24 @@ export default function Navbar() {
 
           {/* CENTER: Desktop menu */}
           <nav className="nav-links" aria-label="Primary">
-            <Link to="/" onClick={() => goSection("#home")}>Home</Link>
-            <Link to="/menu" onClick={() => { closeDrawer(); closeSearch(); }}>Menu</Link>
-            <button type="button" className="navlink-btn" onClick={() => goSection("#tentang")}>
+            <Link to="/" onClick={() => goSection("#home")}>
+              Home
+            </Link>
+            <Link to="/menu" onClick={() => { closeDrawer(); closeSearch(); }}>
+              Menu
+            </Link>
+            <button
+              type="button"
+              className="navlink-btn"
+              onClick={() => goSection("#tentang")}
+            >
               Tentang
             </button>
-            <button type="button" className="navlink-btn" onClick={() => goSection("#kontak")}>
+            <button
+              type="button"
+              className="navlink-btn"
+              onClick={() => goSection("#kontak")}
+            >
               Kontak
             </button>
           </nav>
@@ -98,10 +110,10 @@ export default function Navbar() {
               🔍
             </button>
 
-            {/* Cart */}
+            {/* Cart (badge dinamis) */}
             <button className="icon-btn cart-btn" aria-label="Keranjang">
               🛒
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+              {count > 0 && <span className="cart-badge">{count}</span>}
             </button>
 
             {/* Hamburger (mobile only) */}
@@ -148,7 +160,10 @@ export default function Navbar() {
       </header>
 
       {/* Overlay drawer */}
-      <div className={`nav-overlay ${open ? "show" : ""}`} onClick={() => setOpen(false)} />
+      <div
+        className={`nav-overlay ${open ? "show" : ""}`}
+        onClick={() => setOpen(false)}
+      />
 
       {/* Drawer kiri (mobile) */}
       <aside className={`nav-drawer ${open ? "open" : ""}`} aria-label="Menu">
@@ -159,18 +174,35 @@ export default function Navbar() {
             </span>
             <span>Kedai Kopi</span>
           </div>
-          <button className="drawer-close" onClick={() => setOpen(false)} aria-label="Tutup">
+          <button
+            className="drawer-close"
+            onClick={() => setOpen(false)}
+            aria-label="Tutup"
+          >
             ✕
           </button>
         </div>
 
-        {/* ✅ semua dibuat "kotak" style sama */}
         <nav className="drawer-links">
-          <Link className="drawer-link" to="/" onClick={() => { closeDrawer(); closeSearch(); }}>
+          <Link
+            className="drawer-link"
+            to="/"
+            onClick={() => {
+              closeDrawer();
+              closeSearch();
+            }}
+          >
             Home
           </Link>
 
-          <Link className="drawer-link" to="/menu" onClick={() => { closeDrawer(); closeSearch(); }}>
+          <Link
+            className="drawer-link"
+            to="/menu"
+            onClick={() => {
+              closeDrawer();
+              closeSearch();
+            }}
+          >
             Menu
           </Link>
 
@@ -193,7 +225,7 @@ export default function Navbar() {
           >
             🔍 Cari Menu
           </button>
-          <button className="drawer-action">🛒 Keranjang</button>
+          <button className="drawer-action">🛒 Keranjang ({count})</button>
         </div>
       </aside>
     </>

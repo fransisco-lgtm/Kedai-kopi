@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { MENU_ITEMS, rupiah } from "./data";
+import { useCart } from "../cart/CartContext.jsx";
 
 const CATEGORIES = [
   { key: "all", label: "Semua" },
@@ -11,6 +12,8 @@ const CATEGORIES = [
 export default function Menu() {
   const [active, setActive] = useState("coffee");
   const railRef = useRef(null);
+
+  const { addToCart } = useCart();
 
   const items = useMemo(() => {
     if (active === "all") return MENU_ITEMS;
@@ -27,13 +30,16 @@ export default function Menu() {
     <section id="menu" className="section">
       <div className="container">
         <h2 className="section-title">Pilihan Menu</h2>
-        <p className="section-desc">
-          Pilih kategori dulu, baru lihat menu-nya.
-        </p>
+        <p className="section-desc">Pilih kategori dulu, baru lihat menu-nya.</p>
 
         {/* CATEGORY */}
         <div className="catbar">
-          <button className="cat-arrow" onClick={() => scrollChips(-1)}>
+          <button
+            className="cat-arrow"
+            type="button"
+            aria-label="Geser kiri"
+            onClick={() => scrollChips(-1)}
+          >
             ‹
           </button>
 
@@ -41,6 +47,7 @@ export default function Menu() {
             {CATEGORIES.map((c) => (
               <button
                 key={c.key}
+                type="button"
                 className={`cat-chip ${active === c.key ? "active" : ""}`}
                 onClick={() => setActive(c.key)}
               >
@@ -49,7 +56,12 @@ export default function Menu() {
             ))}
           </div>
 
-          <button className="cat-arrow" onClick={() => scrollChips(1)}>
+          <button
+            className="cat-arrow"
+            type="button"
+            aria-label="Geser kanan"
+            onClick={() => scrollChips(1)}
+          >
             ›
           </button>
         </div>
@@ -58,12 +70,10 @@ export default function Menu() {
         <div className="menu-list">
           {items.map((it) => (
             <article key={it.id} className="card menu-item">
-              {it.image && (
-                <img
-                  src={it.image}
-                  alt={it.name}
-                  className="menu-thumb"
-                />
+              {it.image ? (
+                <img src={it.image} alt={it.name} className="menu-thumb" />
+              ) : (
+                <div className="menu-thumb placeholder" aria-hidden="true" />
               )}
 
               <div className="menu-body">
@@ -71,7 +81,24 @@ export default function Menu() {
                   <h3 className="menu-name">{it.name}</h3>
                   <div className="price">{rupiah(it.price)}</div>
                 </div>
+
                 <p className="menu-note">{it.note}</p>
+
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() =>
+                    addToCart({
+                      id: it.id,
+                      name: it.name,
+                      price: it.price,
+                      image: it.image,
+                    })
+                  }
+                  style={{ marginTop: 10, width: "100%", justifyContent: "center" }}
+                >
+                  + Keranjang
+                </button>
               </div>
             </article>
           ))}
