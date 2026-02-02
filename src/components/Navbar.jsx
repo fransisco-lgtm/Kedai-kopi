@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -6,8 +7,10 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
 
-  // (opsional) contoh jumlah keranjang
   const cartCount = 0;
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // lock scroll saat drawer mobile kebuka
   useEffect(() => {
@@ -17,19 +20,38 @@ export default function Navbar() {
 
   const closeDrawer = () => setOpen(false);
 
-  // tutup search saat pindah mode / klik link
   const closeSearch = () => {
     setSearchOpen(false);
     setQ("");
   };
 
+  // helper: scroll ke section (bisa dari halaman lain)
+  const goSection = async (hash) => {
+    closeDrawer();
+    closeSearch();
+
+    // kalau lagi bukan di home, balik dulu ke home
+    if (location.pathname !== "/") {
+      navigate("/" + hash);
+      // tunggu render
+      setTimeout(() => {
+        const id = hash.replace("#", "");
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+      return;
+    }
+
+    // kalau sudah di home, langsung scroll
+    const id = hash.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   // search behavior sederhana: scroll ke menu
   const onSubmitSearch = (e) => {
     e.preventDefault();
-    const el = document.getElementById("menu");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    // nanti bisa dipakai buat filter menu
-    // sekarang fokus UI dulu
+    goSection("#menu");
   };
 
   const showClear = useMemo(() => q.trim().length > 0, [q]);
@@ -39,20 +61,33 @@ export default function Navbar() {
       <header className="nav">
         <div className="container nav-inner">
           {/* LEFT: Brand */}
-          <a className="brand" href="#home" onClick={() => { closeDrawer(); closeSearch(); }}>
-            <span className="logo" aria-hidden="true">☕</span>
+          <Link
+            className="brand"
+            to="/"
+            onClick={() => {
+              closeDrawer();
+              closeSearch();
+            }}
+          >
+            <span className="logo" aria-hidden="true">
+              ☕
+            </span>
             <span>Kedai Kopi</span>
-          </a>
+          </Link>
 
           {/* CENTER: Desktop menu */}
           <nav className="nav-links" aria-label="Primary">
-            <a href="#home">Home</a>
-            <a href="#menu">Menu</a>
-            <a href="#tentang">Tentang</a>
-            <a href="#kontak">Kontak</a>
+            <Link to="/" onClick={() => goSection("#home")}>Home</Link>
+            <Link to="/menu" onClick={() => { closeDrawer(); closeSearch(); }}>Menu</Link>
+            <button type="button" className="navlink-btn" onClick={() => goSection("#tentang")}>
+              Tentang
+            </button>
+            <button type="button" className="navlink-btn" onClick={() => goSection("#kontak")}>
+              Kontak
+            </button>
           </nav>
 
-          {/* RIGHT: actions (desktop kanan, mobile di sebelah hamburger) */}
+          {/* RIGHT: actions */}
           <div className="nav-actions">
             {/* Search */}
             <button
@@ -81,7 +116,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Search bar dropdown (muncul di bawah navbar) */}
+        {/* Search bar dropdown */}
         <div className={`searchbar ${searchOpen ? "show" : ""}`}>
           <div className="container search-inner">
             <form className="search-form" onSubmit={onSubmitSearch}>
@@ -101,7 +136,9 @@ export default function Navbar() {
                   ✕
                 </button>
               )}
-              <button type="submit" className="search-submit">Cari</button>
+              <button type="submit" className="search-submit">
+                Cari
+              </button>
               <button type="button" className="search-close" onClick={closeSearch}>
                 Tutup
               </button>
@@ -117,7 +154,9 @@ export default function Navbar() {
       <aside className={`nav-drawer ${open ? "open" : ""}`} aria-label="Menu">
         <div className="drawer-header">
           <div className="drawer-brand">
-            <span className="logo" aria-hidden="true">☕</span>
+            <span className="logo" aria-hidden="true">
+              ☕
+            </span>
             <span>Kedai Kopi</span>
           </div>
           <button className="drawer-close" onClick={() => setOpen(false)} aria-label="Tutup">
@@ -125,20 +164,36 @@ export default function Navbar() {
           </button>
         </div>
 
+        {/* ✅ semua dibuat "kotak" style sama */}
         <nav className="drawer-links">
-          <a href="#home" onClick={closeDrawer}>Home</a>
-          <a href="#menu" onClick={closeDrawer}>Menu</a>
-          <a href="#tentang" onClick={closeDrawer}>Tentang</a>
-          <a href="#kontak" onClick={closeDrawer}>Kontak</a>
+          <Link className="drawer-link" to="/" onClick={() => { closeDrawer(); closeSearch(); }}>
+            Home
+          </Link>
+
+          <Link className="drawer-link" to="/menu" onClick={() => { closeDrawer(); closeSearch(); }}>
+            Menu
+          </Link>
+
+          <button className="drawer-link" type="button" onClick={() => goSection("#tentang")}>
+            Tentang
+          </button>
+
+          <button className="drawer-link" type="button" onClick={() => goSection("#kontak")}>
+            Kontak
+          </button>
         </nav>
 
         <div className="drawer-actions">
-          <button className="drawer-action" onClick={() => { setSearchOpen(true); setOpen(false); }}>
+          <button
+            className="drawer-action"
+            onClick={() => {
+              setSearchOpen(true);
+              setOpen(false);
+            }}
+          >
             🔍 Cari Menu
           </button>
-          <button className="drawer-action">
-            🛒 Keranjang
-          </button>
+          <button className="drawer-action">🛒 Keranjang</button>
         </div>
       </aside>
     </>

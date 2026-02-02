@@ -48,8 +48,10 @@
   transform: translateX(-50%);
   display: flex;
   gap: 22px;
+  align-items: center;
 }
 
+/* link di desktop */
 .nav-links a {
   color: rgba(255,255,255,0.8);
   text-decoration: none;
@@ -57,8 +59,23 @@
   padding: 8px 12px;
   border-radius: 999px;
 }
-
 .nav-links a:hover {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+}
+
+/* ✅ button di desktop (Tentang/Kontak) dibuat mirip link */
+.navlink-btn{
+  background: transparent;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+}
+.navlink-btn:hover{
   background: rgba(255,255,255,0.10);
   color: #fff;
 }
@@ -235,19 +252,39 @@
   font-size: 16px;
 }
 
+/* ✅ Drawer links: styling dipakai untuk Link dan Button */
 .drawer-links {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.drawer-links a {
+/* ini berlaku untuk <Link class="drawer-link"> dan <button class="drawer-link"> */
+.drawer-link{
   padding: 12px;
   border-radius: 12px;
   text-decoration: none;
   color: rgba(255,255,255,0.9);
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
+
+  display: block;
+  width: 100%;
+  text-align: left;
+
+  cursor: pointer;
+  font: inherit;
+}
+
+/* biar button gak ada styling default */
+button.drawer-link{
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.drawer-link:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.10);
 }
 
 .drawer-actions {
@@ -269,9 +306,9 @@
 
 /* ===== Mobile only ===== */
 @media (max-width: 768px) {
-  .nav-links { display: none; }  /* desktop menu hilang */
-  .burger { display: grid; place-items: center; } /* hamburger muncul */
-  .searchbar.show { max-height: 120px; } /* ruang input mobile */
+  .nav-links { display: none; }
+  .burger { display: grid; place-items: center; }
+  .searchbar.show { max-height: 120px; }
   .search-form { flex-wrap: wrap; }
   .search-submit, .search-close { flex: 1; }
 }
