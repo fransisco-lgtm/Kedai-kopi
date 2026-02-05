@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import { MENU_ITEMS, rupiah } from "../components/data.js";
@@ -11,20 +11,7 @@ const GROUPS = [
 ];
 
 export default function MenuPage() {
-  const { addToCart } = useCart();
-  const [addedId, setAddedId] = useState(null);
-
-  const handleAdd = (it) => {
-    addToCart({
-      id: it.id,
-      name: it.name,
-      price: it.price,
-      image: it.image,
-    });
-
-    setAddedId(it.id);
-    setTimeout(() => setAddedId(null), 900);
-  };
+  const { cart, addToCart, inc, dec } = useCart();
 
   return (
     <>
@@ -42,21 +29,17 @@ export default function MenuPage() {
             if (items.length === 0) return null;
 
             return (
-              <section key={g.key} style={{ marginTop: 26 }}>
-                <h3 style={{ margin: "0 0 14px" }}>{g.title}</h3>
+              <section key={g.key} style={{ marginTop: 22 }}>
+                <h3 className="menu-section-title">{g.title}</h3>
 
                 <div className="menu-list">
                   {items.map((it) => {
-                    const isAdded = addedId === it.id;
+                    const inCart = cart.find((c) => c.id === it.id);
 
                     return (
                       <article key={it.id} className="card menu-item">
                         {it.image ? (
-                          <img
-                            src={it.image}
-                            alt={it.name}
-                            className="menu-thumb"
-                          />
+                          <img src={it.image} alt={it.name} className="menu-thumb" />
                         ) : (
                           <div className="menu-thumb placeholder" />
                         )}
@@ -69,17 +52,34 @@ export default function MenuPage() {
 
                           <p className="menu-note">{it.note}</p>
 
-                          <button
-                            type="button"
-                            className={`btn btn-cart ${isAdded ? "added" : ""}`}
-                            onClick={() => handleAdd(it)}
-                          >
-                            <span className="cart-ico">🛒</span>
-                            <span className="cart-text">
-                              {isAdded ? "Ditambahkan" : "Tambah ke Keranjang"}
-                            </span>
-                            {isAdded && <span className="cart-check">✓</span>}
-                          </button>
+                          {/* ACTION: belum ada -> Tambah | sudah ada -> (- qty +) */}
+                          {!inCart ? (
+                            <button
+                              type="button"
+                              className="btn btn-cart"
+                              onClick={() =>
+                                addToCart({
+                                  id: it.id,
+                                  name: it.name,
+                                  price: it.price,
+                                  image: it.image,
+                                })
+                              }
+                            >
+                              <span className="cart-ico">🛒</span>
+                              Tambah ke Keranjang
+                            </button>
+                          ) : (
+                            <div className="cart-qty cart-qty-inline">
+                              <button type="button" onClick={() => dec(it.id)}>
+                                −
+                              </button>
+                              <span>{inCart.qty}</span>
+                              <button type="button" onClick={() => inc(it.id)}>
+                                +
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </article>
                     );

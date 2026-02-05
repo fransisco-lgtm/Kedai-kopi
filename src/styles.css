@@ -34,7 +34,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .section{
-  padding:64px 0; /* ✅ jarak antar section */
+  padding:64px 0; /* jarak antar section */
 }
 
 /* ================= CARD ================= */
@@ -46,12 +46,30 @@ a{text-decoration:none;color:inherit}
   padding:18px;
 }
 
-/* kasih jarak antar card */
-.section .card{
-  margin-bottom:18px;
+/* ================= BUTTON BASE ================= */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  cursor:pointer;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease, filter .12s ease;
+}
+.btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.18); }
+.btn:active{ transform: scale(.98); }
+
+.btn.primary{
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  border-color: rgba(0,0,0,.2);
+  color: #1b140f;
+  font-weight: 900;
 }
 
-/* ================= NAVBAR ================= */
+/* ================= NAVBAR (BASE) ================= */
 .nav{
   position:sticky;
   top:0;
@@ -77,12 +95,12 @@ a{text-decoration:none;color:inherit}
   margin:0 0 10px;
 }
 .section-desc{
-  margin:0 0 22px; /* ✅ jarak bawah diperbesar */
+  margin:0 0 22px;
   color:var(--muted);
   line-height:1.7;
 }
 
-/* ================= CATEGORY BAR ================= */
+/* ================= CATEGORY BAR (HOME) ================= */
 .catbar{
   display:flex;
   align-items:center;
@@ -98,6 +116,7 @@ a{text-decoration:none;color:inherit}
   color:#1a1a1a;
   font-size:26px;
   cursor:pointer;
+  box-shadow:0 10px 22px rgba(0,0,0,.30);
 }
 .cat-rail{
   flex:1;
@@ -105,6 +124,7 @@ a{text-decoration:none;color:inherit}
   gap:14px;
   overflow-x:auto;
   scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
 }
 .cat-rail::-webkit-scrollbar{display:none}
 .cat-chip{
@@ -113,23 +133,18 @@ a{text-decoration:none;color:inherit}
   border:0;
   background:#3a3a3a;
   color:#d6d6d6;
-  font-weight:700;
+  font-weight:800;
   min-width:180px;
   text-align:center;
+  cursor:pointer;
+  box-shadow:0 10px 22px rgba(0,0,0,.22);
 }
 .cat-chip.active{
   background:#e6b980;
   color:#1a1a1a;
 }
 
-/* ================= MENU LIST (ROW) ================= */
-.menu-list{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-/* satu item menu */
+/* ================= MENU ITEM (ROW) ================= */
 .menu-item{
   display:flex;
   align-items:center;
@@ -137,7 +152,6 @@ a{text-decoration:none;color:inherit}
   padding:14px;
 }
 
-/* gambar kiri */
 .menu-thumb{
   width:72px;
   height:72px;
@@ -146,8 +160,11 @@ a{text-decoration:none;color:inherit}
   object-fit:cover;
   background:#000;
 }
+.menu-thumb.placeholder{
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
 
-/* teks kanan */
 .menu-body{
   flex:1;
   min-width:0;
@@ -161,7 +178,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .menu-name{
-  font-weight:800;
+  font-weight:900;
   margin:0;
 }
 
@@ -179,6 +196,7 @@ a{text-decoration:none;color:inherit}
   padding:8px 10px;
   border-radius:12px;
   white-space:nowrap;
+  box-shadow:0 10px 22px rgba(0,0,0,.25);
 }
 
 /* ================= FOOTER ================= */
@@ -198,34 +216,47 @@ a{text-decoration:none;color:inherit}
   }
 }
 
-/* ===== MENU PAGE SECTION TITLE ===== */
+/* ======================================================
+   MENU PAGE (/menu) - SUSUN RAPi + JARAK TIDAK JAUH
+====================================================== */
+
+/* judul per kategori */
 .menu-section-title{
-  margin: 0 0 12px;
+  margin: 18px 0 12px;
   font-size: 18px;
   font-weight: 900;
   letter-spacing: .2px;
   color: rgba(255,255,255,.92);
 }
 
-/* list menu di halaman /menu -> jadi GRID 2 kolom */
+/* list menu: 2 kolom (desktop), 1 kolom (mobile) */
 .menu-list{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 12px;                  /* ✅ lebih rapat dari 14 */
+  margin-top: 12px;
 }
 
-/* mobile tetap 1 kolom biar enak dibaca */
+/* card menu di halaman /menu: rapat + enak */
+.menu-list .menu-item{
+  padding: 14px;
+}
+
+/* rapetin jarak antar card menu */
+.menu-list .card{
+  margin-bottom: 0;
+}
+
 @media (max-width: 640px){
   .menu-list{
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
-.menu-thumb.placeholder{
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-}
 
-/* ===== CART PANEL ===== */
+/* ======================================================
+   CART PANEL (SIDEBAR KERANJANG)
+====================================================== */
 .cart-overlay{
   position: fixed;
   inset: 0;
@@ -295,26 +326,6 @@ a{text-decoration:none;color:inherit}
   cursor: pointer;
 }
 
-.cart-qty{
-  margin-top: 10px;
-  display:flex;
-  align-items:center;
-  gap: 10px;
-}
-.cart-qty button{
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
-  color: #fff;
-}
-.cart-qty span{
-  min-width: 18px;
-  text-align:center;
-  font-weight: 800;
-}
-
 .cart-foot{
   margin-top: 14px;
   padding-top: 12px;
@@ -336,31 +347,254 @@ a{text-decoration:none;color:inherit}
   flex:1;
   justify-content:center;
 }
-/* ===== BUTTON ADD TO CART (lebih cakep) ===== */
+
+/* ======================================================
+   ✅ ADD TO CART GOLD + ✅ QTY CONTROL GOLD (FIX FINAL)
+====================================================== */
+
+/* tombol tambah ke keranjang */
 .btn-cart{
   width: 100%;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
   gap: 10px;
-  font-weight: 800;
-  border-radius: 14px;
-  transition: transform .12s ease, background .12s ease, border-color .12s ease;
-}
 
-.btn-cart:hover{
-  transform: translateY(-1px);
+  border-radius: 14px;
+  border: 0;
+  cursor: pointer;
+
+  font-weight: 900;
+  color: #1b140f;
+
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  box-shadow: 0 10px 22px rgba(0,0,0,.30);
+  transition: transform .12s ease, filter .12s ease;
 }
+.btn-cart:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+.btn-cart:active{ transform: scale(.98); }
 
 .btn-cart .cart-ico{
   font-size: 18px;
   transform: translateY(-1px);
 }
 
+/* kalau ada class added, tetap GOLD */
 .btn-cart.added{
   background: linear-gradient(90deg, var(--brand), var(--brand2));
-  color: #1b140f;
-  border-color: rgba(0,0,0,.2);
+  color:#1b140f;
 }
 
-.btn-cart .cart-check{
+/* kontrol qty model (-) 1 (+) */
+.cart-qty{
+  margin-top: 10px;
+  width: 100%;
+  height: 44px;
+  border-radius: 14px;
+
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  color: #1b140f;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+
+  box-shadow: 0 10px 22px rgba(0,0,0,.30);
+}
+
+.cart-qty span{
+  font-weight: 900;
+  min-width: 22px;
+  text-align: center;
+}
+
+/* tombol - dan + */
+.cart-qty button{
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+
+  border: 2px solid #1b140f;
+  background: rgba(255,255,255,.35);
+  color: #1b140f;
+
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+  transition: transform .12s ease, filter .12s ease;
+}
+.cart-qty button:hover{ filter: brightness(1.05); }
+.cart-qty button:active{ transform: scale(.95); }
+
+/* ===== QTY CONTROL (GOLD) ===== */
+.cart-qty-inline{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  border: 1px solid rgba(0,0,0,.25);
+  color: #1b140f;
+  font-weight: 900;
+}
+
+.cart-qty-inline button{
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.25);
+  background: rgba(255,255,255,.35);
+  font-size: 20px;
+  font-weight: 900;
+  color: #1b140f;
+  cursor: pointer;
+}
+
+.cart-qty-inline button:hover{
+  background: rgba(255,255,255,.55);
+}
+
+.cart-qty-inline span{
+  min-width: 22px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* ================= RAPATKAN JARAK MENU ================= */
+
+/* grid/list menu */
+.menu-list{
+  gap: 10px;               /* sebelumnya 14px → dipersempit */
+}
+
+/* satu kartu menu */
+.menu-item{
+  padding: 12px;           /* sebelumnya 14–18px */
+  gap: 12px;               /* jarak gambar & teks */
+}
+
+/* judul + harga */
+.menu-row-top{
+  margin-bottom: 4px;      /* rapatkan header */
+}
+
+/* deskripsi */
+.menu-note{
+  margin-top: 4px;         /* sebelumnya 6–8px */
+  line-height: 1.5;
+}
+
+/* tombol add to cart */
+.btn-cart{
+  margin-top: 8px;         /* tombol lebih dekat ke deskripsi */
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 640px){
+  .menu-list{
+    gap: 8px;
+  }
+
+  .menu-item{
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .menu-note{
+    font-size: 13px;
+  }
+}
+
+/* ================= RAPATKAN MENU DI HOME (GRID) ================= */
+
+/* jarak antar card di grid home */
+.grid{
+  gap: 10px;          /* sebelumnya 14px */
+}
+
+/* padding card menu home */
+.menu-card{
+  padding: 12px;      /* sebelumnya 16px */
+}
+
+/* rapetin head + note di card home */
+.menu-head{
+  gap: 8px;
+}
+
+.menu-note{
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* mobile */
+@media (max-width: 640px){
+  .grid{
+    gap: 8px;
+  }
+  .menu-card{
+    padding: 10px;
+  }
+}
+
+/* ===== ADD TO CART BUTTON (GLOBAL) ===== */
+.btn-cart{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 12px 14px;
+  font-weight: 800;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.2);
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  color: #1b140f;
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease;
+}
+
+.btn-cart:hover{
+  transform: translateY(-1px);
+  opacity: .95;
+}
+
+.btn-cart.added{
+  opacity: .9;
+}
+
+.btn-cart .cart-ico{
+  font-size: 18px;
+}
+
+.cart-qty{
+  margin-top: 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 12px;
+}
+
+.cart-qty button{
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 18px;
+}
+
+.cart-qty span{
+  min-width: 20px;
+  text-align:center;
   font-weight: 900;
 }
